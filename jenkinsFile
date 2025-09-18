@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven-3.9'  // must match the name in Jenkins Global Tool Config
+        jdk 'jdk-17'       // must match the JDK name you configured
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/SamCodesAlright/jenkins-maven-ci.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                bat 'mvn clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+    }
+}
