@@ -5,11 +5,11 @@ pipeline {
         jdk 'JDK17'       
     }
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/SamCodesAlright/jenkins-maven-ci.git'
-            }
-        }
+stage('Checkout') {
+    steps {
+        git branch: 'main', url: 'https://github.com/SamCodesAlright/jenkins-maven-ci.git'
+    }
+}
         stage('Build') {
             steps {
                 bat 'mvn clean package'
