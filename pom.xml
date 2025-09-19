@@ -8,7 +8,7 @@
   <groupId>com.example</groupId>
   <artifactId>hello-world</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging> <!-- ✅ Change from jar to war -->
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>
@@ -23,6 +23,37 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
+    <!-- (Optional) Add Servlet API for web apps -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
+
+  <build>
+    <finalName>hello-world</finalName> <!-- WAR name: hello-world.war -->
+    <plugins>
+      <!-- ✅ WAR plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version>
+      </plugin>
+
+      <!-- ✅ Tomcat plugin (for deployment from Jenkins/Maven) -->
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <url>http://localhost:8080/manager/text</url>
+          <server>tomcat-server</server> <!-- must match settings.xml -->
+          <path>/hello-world</path>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

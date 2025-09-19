@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven9'  
-        jdk 'JDK17'       
+        maven 'Maven9'
+        jdk 'JDK17'
     }
     stages {
         stage('Checkout') {
@@ -22,7 +22,14 @@ pipeline {
         }
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
+            }
+        }
+        stage('Deploy to Tomcat') {
+            steps {
+                bat '''
+                copy target\\hello-world.war C:\\apache-tomcat-9.0.109\\webapps\\hello-world.war
+                '''
             }
         }
     }
